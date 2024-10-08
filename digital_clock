@@ -1,0 +1,24 @@
+from tkinter import Tk
+from tkinter.ttk import Label
+import time
+
+# Creating tkinter window
+root = Tk()  # root is a variable
+root.title('Clock')
+
+def present_time():
+    # Display time in 12-hour format with AM/PM
+    display_time = time.strftime("%I:%M:%S %p")
+    digi_clock.config(text=display_time)
+    # Call this function again after 200 ms
+    digi_clock.after(200, present_time)
+
+# Create a Label widget to display the time
+digi_clock = Label(root, font=("Arial", 150), background="red", foreground="black")
+digi_clock.pack()
+
+# Initialize the time display
+present_time()
+
+# Start the Tkinter event loop
+root.mainloop()

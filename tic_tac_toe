@@ -1,0 +1,66 @@
+def print_board(board):
+    print("Current board:")
+    for row in board:
+        print(" | ".join(row))
+        print("-" * 9)
+
+def check_winner(board, player):
+    # Check rows
+    for row in board:
+        if row.count(player) == 3:
+            return True
+    
+    # Check columns
+    for col in range(3):
+        if [board[row][col] for row in range(3)].count(player) == 3:
+            return True
+    
+    # Check diagonals
+    if [board[i][i] for i in range(3)].count(player) == 3 or [board[i][2 - i] for i in range(3)].count(player) == 3:
+        return True
+    
+    return False
+
+def check_tie(board):
+    for row in board:
+        if " " in row:
+            return False
+    return True
+
+def tic_tac_toe():
+    board = [[" " for _ in range(3)] for _ in range(3)]
+    players = ["X", "O"]
+    current_player = 0
+    
+    while True:
+        print_board(board)
+        try:
+            row = int(input(f"Player {players[current_player]}, enter row (0, 1, 2): "))
+            col = int(input(f"Player {players[current_player]}, enter column (0, 1, 2): "))
+            
+            if row not in range(3) or col not in range(3):
+                print("Invalid input. Please enter row and column values between 0 and 2.")
+                continue
+            
+            if board[row][col] != " ":
+                print("This spot is already taken. Try again.")
+                continue
+            
+            board[row][col] = players[current_player]
+            
+            if check_winner(board, players[current_player]):
+                print_board(board)
+                print(f"Player {players[current_player]} wins!")
+                break
+            
+            if check_tie(board):
+                print_board(board)
+                print("It's a tie!")
+                break
+            
+            current_player = 1 - current_player
+        except ValueError:
+            print("Invalid input. Please enter numerical values for row and column.")
+
+if __name__ == "__main__":
+    tic_tac_toe()
